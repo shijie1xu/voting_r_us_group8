@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Voting R US
 
 ## TODO
@@ -27,8 +26,3 @@ Small notes:
 
 ## Annoying TODO
 1. So you can't terminate a python interpreter with SIGINT(control C) if it's in an infinite while loop (which our server is in) so it's getting really annoying to have to kill the process each time with another shell. If someone wants to look into this, would be helpful. The problem is the server is always expecting some input from the client. I'm not sure how you could actually end it at that point since it's a blocking call. Don't really have to do this, just makes developing a bit easier, but if you want, feel free
-=======
-## TODO
-
-Everything
->>>>>>> e5da98d51f1ee21d1479af23b9a9bf5734d1853f
