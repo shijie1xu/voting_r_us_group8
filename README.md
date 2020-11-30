@@ -2,8 +2,6 @@
 
 ## TODO
 1. Encrypt and digital signature (including for authentication process)
-2. Create dictionary (hashmap) on server for mantaining voting counts for each candidate in the format of [President: (PersonA: votes, PersonB: votes), Senator: (PersonC: votes, Person D: Votes)]
-3. Get the vote of the client and print out message on who they want to vote for (if you want to send a dictionary instead of a string, use something like pickle to serialize the data) and keep track of votes on server side with the dictionary. Also, change the voter-registration for that particular user to then be False (last column)
 
 ## File Formats
 ### Voter registration (server)

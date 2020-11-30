@@ -8,6 +8,25 @@ totalClientsVoted = 10 # only 10 clients will be allowed to vote
 acceptedStr = "Accepted".encode()
 rejectedStr = "Rejected".encode()
 
+# keep track of how many votes each candidate recieves
+votes = {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0,
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "N": 0 # this keeps track of how many people skipped a category
+}
+
+# candidate choices by category (N stands for none -> candidate wants to skip vote for this category)
+pres_cands = ["1", "2", "3", "N"]
+sen_cands = ["4", "5", "6", "N"]
+rep_cands = ["7", "8", "9", "N"]
+
 def authenticateClient(client):
     # parse client string
     credentials = client.recv(1024).decode()
@@ -30,6 +49,24 @@ def authenticateClient(client):
 
     # if we reach here, the user isn't in the registered file (invalid client)
     return False
+
+def validate_tally_vote(client):
+    # parse client string
+    vote = client.recv(1024).decode()
+    pres, sen, rep = vote.split(":")
+
+    # convert to upper case chars
+    pres, sen, rep = pres.upper(), sen.upper(), rep.upper()
+
+    # check for invalid votes
+    if pres not in pres_cands or sen not in sen_cands or rep not in rep_cands:
+        return False
+
+    # accumulate tally
+    votes[pres] += 1
+    votes[sen] += 1
+    votes[rep] += 1
+    return True
 
 def main():
     # create TCP/IP socket object
@@ -57,6 +94,18 @@ def main():
             client.send(acceptedStr)
         else:
             print("Client has failed authentication")
+            client.send(rejectedStr)
+        print("------------------------------------\n")
+
+        # Vote tally
+        print("-------------Vote tally-------------")
+        validVote = validate_tally_vote(client)
+        if validVote:
+            print("Client vote has been successfully done")
+            print(votes)
+            client.send(acceptedStr)
+        else:
+            print("Client has failed to vote properly")
             client.send(rejectedStr)
         print("------------------------------------\n")
 
