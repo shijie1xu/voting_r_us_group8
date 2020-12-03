@@ -5,7 +5,6 @@ from Crypto.Cipher import AES
 import os
 import binascii
 from hashlib import sha256
-import client
 
 port = 8080 # listen on port 8080
 totalClientsVoted = 10 # only 10 clients will be allowed to vote
@@ -38,7 +37,7 @@ def write_IV(username):
     # Make an IV with first 16 byte of sha256 of username
     key = binascii.hexlify(sha256(username.encode()).digest()[0:8])
     # print('The Key You Made Was: ', [x for x in key])
-    with open("../client/CBC_IV.IV", "wb") as file:
+    with open("../client/CBC_IV", "wb") as file:
         file.write(key)
 
 
@@ -60,7 +59,7 @@ def read_key():
 
 # read IV
 def read_IV():
-    with open("../client/CBC_IV.IV", "rb") as file:
+    with open("../client/CBC_IV", "rb") as file:
         key_new = file.read()
     return key_new
 
