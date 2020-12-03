@@ -160,6 +160,9 @@ def validate_tally_vote(client):
     votes[pres] += 1
     votes[sen] += 1
     votes[rep] += 1
+    
+    # TODO - MARK USER VOTED AS TRUE - I think I'll turn it into a JSON file 
+    
     return True
 
 def main():
