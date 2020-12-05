@@ -29,7 +29,7 @@ from Crypto.PublicKey import RSA
 def verify_signature (signature, username, vote_data):
 	# server opens the RSA keypair file corresponding to username
 	try:
-		with open(username+".txt", "r") as f: 
+		with open("../client/"+username+".txt", "r") as f: 
 			n = f.readline()
 			e = f.readline()
 			d = f.readline()
