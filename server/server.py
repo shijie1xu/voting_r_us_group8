@@ -53,7 +53,7 @@ def read_key():
 
 # read IV
 def read_IV():
-    with open("../client/CBC_IV.IV", "rb") as file:
+    with open("../client/CBC_IV", "rb") as file:
         iv = file.read()
     return iv
 

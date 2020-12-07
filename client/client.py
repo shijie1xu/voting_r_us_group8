@@ -14,14 +14,16 @@ iv = ""
 
 # Generate IV from username(maybe vulnerable)
 def write_IV(username):
+    global iv
     # Make an IV with first 16 byte of sha256 of username
     iv = binascii.hexlify(sha256(username.encode()).digest()[0:8])
     # print('The Key You Made Was: ', [x for x in key])
     with open("CBC_IV", "wb") as file:
-        file.write(key)
+        file.write(iv)
 
 # Generate key randomly
 def write_key():
+    global key
     # Make a random key with 16 bytes
     key = binascii.hexlify(os.urandom(8))
     # print('The Key You Made Was: ', [x for x in key])
@@ -30,6 +32,8 @@ def write_key():
 
 # CBC encrypt
 def CBC_encrypt(plaintext, voting):
+    global key
+    global iv
     cipher = AES.new(key, AES.MODE_CBC, iv)
     # encrypt using CBC mode
     plaintext_byte = plaintext.encode('utf-8')
