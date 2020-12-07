@@ -1,7 +1,7 @@
 # Voting R US
 
 ## TODO
-1. Encrypt and digital signature (including for authentication process)
+- Nothing :)
 
 ## File Formats
 ### Voter registration (server)

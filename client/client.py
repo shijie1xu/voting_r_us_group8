@@ -9,8 +9,8 @@ import math
 port = 8080  # connect on port 8080
 
 username = ""
-key = ""
-iv = ""
+key = bytearray()
+iv = bytearray()
 
 # Generate IV from username(maybe vulnerable)
 def write_IV(username):
@@ -18,7 +18,7 @@ def write_IV(username):
     # Make an IV with first 16 byte of sha256 of username
     iv = binascii.hexlify(sha256(username.encode()).digest()[0:8])
     # print('The Key You Made Was: ', [x for x in key])
-    with open("CBC_IV", "wb") as file:
+    with open("CBC_IV", "wb+") as file:
         file.write(iv)
 
 # Generate key randomly
@@ -27,13 +27,11 @@ def write_key():
     # Make a random key with 16 bytes
     key = binascii.hexlify(os.urandom(8))
     # print('The Key You Made Was: ', [x for x in key])
-    with open("CBC.key", "wb") as file:
+    with open("CBC.key", "wb+") as file:
         file.write(key)
 
 # CBC encrypt
 def CBC_encrypt(plaintext, voting):
-    global key
-    global iv
     cipher = AES.new(key, AES.MODE_CBC, iv)
     # encrypt using CBC mode
     plaintext_byte = plaintext.encode('utf-8')
@@ -78,7 +76,7 @@ def sign_vote(vote_data):  # pass in voter's username as well as their vote data
 
 # user inputs in their username and password
 def authenticate(sock):
-    # global username  TODO: Why is this necessary?
+    global username
     print("Hello! Welcome to Voting R US")
     username = input("Username: ")
     password = input("Password: ")
@@ -165,8 +163,6 @@ def main():
         exit(0)
     else:
         print("\nCongratulations! Your vote has been cast!")
-
-    # Next step (fill in other functions here)
 
     # close the connection
     sock.close()

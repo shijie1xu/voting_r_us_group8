@@ -1,0 +1,4 @@
+*.txt
+CBC_IV
+CBC.key
+*.idea

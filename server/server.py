@@ -81,6 +81,8 @@ def CBC_decrypt(ciphertext, voting):
     return plaintext
 
 def authenticateClient(client):
+    global client_username
+
     # parse client string
     credentials_encrypted = client.recv(1024)
     print("Decrypting client authentication using CBC...")
@@ -158,6 +160,7 @@ def validate_tally_vote(client):
     signature = client.recv(1024).decode()
     print("Verifying client digital signature...")
     if not verify_signature(signature, client_username, vote_decrypted):
+        print("Signature verification failed.")
         return False
     print("Signature verified.")
 
@@ -177,7 +180,6 @@ def validate_tally_vote(client):
 
     # mark user as voted
     update_voted(client_username)
-    print("User vote has been successfully cast and recorded.")
     return True
 
 def printCurrTally():
@@ -226,8 +228,7 @@ def main():
         print("-------------Vote tally-------------")
         validVote = validate_tally_vote(client)
         if validVote:
-            print("Client vote has been successfully done")
-            print(votes)
+            print("Client vote has been successfully cast and recorded.")
             client.send(acceptedStr)
         else:
             print("Client has failed to vote properly")
@@ -239,8 +240,9 @@ def main():
         print("-----------Current Vote Count-----------")
         printCurrTally()
         print("------------------------------------\n")
+
         # PRIYA ADDED - reset client-username to nobody
-        # global client_username  Not needed I think
+        global client_username
         if clientCount == totalClientsVoted:
             exit(0)
 
